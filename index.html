@@ -986,6 +986,8 @@ body.mcguest #mc-online-panel{display:none!important}
 #cmPromo p{margin:4px 0 0;font:800 16px Arial;color:#ffe7a6}
 #cmPromo img{width:min(70vw,300px);margin:8px 0;filter:drop-shadow(0 0 24px rgba(255,216,74,.6));animation:chIn .8s cubic-bezier(.2,1.4,.4,1) .15s both}
 #cmPromo button{margin-top:8px;padding:13px 40px;border-radius:14px;border:3px solid #fff;background:linear-gradient(#ffd84a,#ff9a1f);color:#5d2c00;font:900 17px Arial;cursor:pointer}
+.capr{display:flex;align-items:flex-end;gap:0;min-height:20px;margin-top:2px}.capr span{display:inline-block;width:15px;height:22px;margin-right:-3px}.capr span img,.capr span svg{width:100%;height:100%;object-fit:contain;object-position:50% 100%}.capr span+span.g{margin-left:5px}.capr em{font:800 12px system-ui;font-style:normal;color:#2a9d4a;margin-left:7px;align-self:center}
+#board .sq b.im .tb{top:auto!important;bottom:8cqh!important;right:calc(50% - 50cqw)!important}
 #packQuote{position:fixed;left:50%;top:max(12px,env(safe-area-inset-top));transform:translate(-50%,-160%);z-index:2147483000;width:min(92vw,460px);padding:12px 16px 11px;border-radius:10px;text-align:center;opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.2,.9,.2,1),opacity .35s;box-shadow:0 10px 30px #000c;font-family:Georgia,"Times New Roman",serif}
 #packQuote.on{transform:translate(-50%,0);opacity:1}
 #packQuote q{display:block;font:italic 15.5px/1.35 Georgia,serif;quotes:"“" "”"}
@@ -1392,7 +1394,7 @@ body.mcguest #mc-online-panel{display:none!important}
 #board .sq b.op::before{background:radial-gradient(ellipse,#ff4b3e 0 45%,#ff4b3e88 62%,transparent 72%);box-shadow:0 0 0 1.5px #ffffffcc inset}
 #board .sq b .tb{position:absolute;left:50%;top:auto;bottom:calc(100% - 96cqh);z-index:3;display:none}
 #board .sq b .tb{display:grid;place-items:center;position:fixed;visibility:hidden}
-#board .sq b.im .tb{visibility:visible;position:absolute;left:auto;right:calc(50% - 49cqw);bottom:auto;top:calc(100% - 97cqh);width:30cqw;height:30cqw;border-radius:50%;border:1.5px solid #fff;font:400 21cqw/1 "Noto Sans Symbols 2","Segoe UI Symbol","DejaVu Sans",serif;font-style:normal;color:#fff;text-shadow:none;padding-bottom:1cqw}
+#board .sq b.im .tb{visibility:visible;position:absolute;left:auto;right:calc(50% - 49cqw);bottom:auto;top:calc(100% - 97cqh);width:40cqw;height:40cqw;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px #0009;font:700 29cqw/1 "Noto Sans Symbols 2","Segoe UI Symbol","DejaVu Sans",serif;font-style:normal;color:#fff;text-shadow:none;padding-bottom:1cqw}
 #board .sq b.me .tb{background:#1f7fe0}
 #board .sq b.op .tb{background:#d93a2e}
 </style>
@@ -2758,7 +2760,7 @@ function scrape(d){
  s.buffer=NB;s.loop=true;
  bp.type='bandpass';bp.Q.value=2.5;lp.type='lowpass';lp.frequency.value=3200;
  bp.frequency.setValueAtTime(500,t);bp.frequency.linearRampToValueAtTime(1300,t+d*.45);bp.frequency.linearRampToValueAtTime(600,t+d);
- g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.42,t+d*.3);g.gain.setValueAtTime(.42,t+d*.6);g.gain.linearRampToValueAtTime(0,t+d);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.75,t+d*.3);g.gain.setValueAtTime(.75,t+d*.6);g.gain.linearRampToValueAtTime(0,t+d);
  tr.gain.value=.82;lf.frequency.value=28;lg.gain.value=.18;lf.connect(lg);lg.connect(tr.gain);
  s.connect(bp);bp.connect(lp);lp.connect(g);g.connect(tr);tr.connect(ac.destination);
  s.start(t);lf.start(t);s.stop(t+d+.05);lf.stop(t+d+.05)}
@@ -2773,7 +2775,7 @@ function fx(m,cp,d){
  if(cp&&d){const e=document.querySelector(`[data-s="${cs}"]`);
   if(e){e.insertAdjacentHTML('beforeend',`<b${IMG[cv(cp)+u]?' class="im"':''}>${pcSvg(cv(cp),u)}</b>`);gh=e.lastElementChild}}
  if(cp&&d)try{packCapFx(m,cp,cs,'pre')}catch(e){}
- if(d)dl?setTimeout(()=>scrape(d/1000),dl):scrape(d/1000);
+ if(d)dl?setTimeout(()=>scrape(d/1000),dl):scrape(d/1000);else scrape(.2);
  // Menzilli saldırı (efsane paketleri): önce ateş ve vurulan taşın düşüşü, sonra saldıran taş kareye geçer.
  if(dl&&cp){try{packCapFx(m,cp,cs,'atk')}catch(e){}
   setTimeout(()=>{hitDone=true;if(gh)gh.remove();burst(cs,big?['#ff2d2d','#ff7a59']:['#ffffff','#dfe9ff'],big);try{packCapFx(m,cp,cs,'die')}catch(e){}},Math.round(dl*.45))}
@@ -3194,6 +3196,19 @@ document.addEventListener('click',e=>{const h=e.target.closest&&e.target.closest
 try{renderHome()}catch(e){}
 setTimeout(function cmFirst(){if(document.getElementById('freiyIntro')){setTimeout(cmFirst,800);return}try{if(!P.cmdrSet&&scr==='home')cmPick(true)}catch(e){}},1500);
 
+
+// ---- Alınan taşlar: her oyuncunun barında yediği taşlar ve malzeme farkı
+{const b0=bars;bars=function(){const r=b0.apply(this,arguments);try{
+ const V={Q:9,R:5,B:3,N:3,P:1},ST={Q:1,R:2,B:2,N:2,P:8},cnt={w:{},b:{}};
+ S.b.forEach(p=>{if(!p)return;const c=p<'a'?'w':'b',u=p.toUpperCase();cnt[c][u]=(cnt[c][u]||0)+1});
+ const mat=c=>Object.keys(V).reduce((a,u)=>a+(cnt[c][u]||0)*V[u],0);
+ const bot=fl?'b':'w';
+ [['bt',bot==='w'?'b':'w'],['bb',bot]].forEach(([id,c])=>{const o=c==='w'?'b':'w',ocv=cv(o==='w'?'K':'k');let h='';
+  ['Q','R','B','N','P'].forEach((u,gi)=>{const n=Math.max(0,ST[u]-(cnt[o][u]||0));for(let k=0;k<n;k++)h+=`<span${k===0&&h?' class="g"':''}>${pcSvg(ocv,u)}</span>`});
+  const d=mat(c)-mat(o);if(d>0)h+=`<em>+${d}</em>`;
+  const box=$(id)&&$(id).querySelector('div');if(box&&h){const e=document.createElement('div');e.className='capr';e.innerHTML=h;box.appendChild(e)}})
+}catch(e){}return r}}
+
 function purchaseCivilization(){
   const id=pendingCivId,c=CIVILIZATION_BY_ID[id];
   if(!c||c.free||isCivUnlocked(id)){closeCivPurchase();return}
@@ -3479,7 +3494,7 @@ $('rvNewCiv').onclick=()=>{rvStop();$('reviewScreen').classList.remove('on');go(
 $('rvShare').onclick=()=>shareVictoryCard();
 
 $('erAgain').onclick=()=>{$('erBackRes').classList.remove('on');clearTimeout(endTimer);endTimer=0;$('epicResult').classList.remove('show');newGame(MODE,DC);go('game')};
-$('erNewCiv').onclick=()=>{$('erBackRes').classList.remove('on');clearTimeout(endTimer);endTimer=0;$('epicResult').classList.remove('show');go('civ')};
+$('erNewCiv').onclick=()=>{$('erBackRes').classList.remove('on');clearTimeout(endTimer);endTimer=0;$('epicResult').classList.remove('show');go('gallery');try{$('gallery').classList.remove('detail');renderGallery()}catch(_){}};
 function finish(win){
  if(REC)return;
  rvWinner=win;
@@ -3544,7 +3559,7 @@ $('pf').onchange=e=>{
  r.readAsDataURL(f);e.target.value=''};
 
 // ---- Ayarlar ekranı, otomatik kayıt ----
-const PSZ=[.88,1,1.12],PSN=['Küçük','Orta','Büyük'],applyPs=()=>document.documentElement.style.setProperty('--ps',PSZ[PSI]);
+const PSZ=[1.16,1.32,1.46],PSN=['Küçük','Orta','Büyük'],applyPs=()=>document.documentElement.style.setProperty('--ps',PSZ[PSI]);
 function renderSet(){
  document.querySelectorAll('[data-tg]').forEach(b=>{const k=b.dataset.tg;b.classList.toggle('on',k==='sfx'?!mute:k==='vib'?!nv:k==='an'?an:k==='tl'?tl:av)});
  $('gps').innerHTML=`Taş Boyutu<b>${PSN[PSI]}</b>`;$('gtc').innerHTML=`Süre (yeni oyunlar)<b>${TCS[TCI].n}</b>`;
@@ -3768,7 +3783,7 @@ document.addEventListener('click',ev=>{
   else if(e.id==='online')go('world');
  else if(e.id==='findOpponent')findWorldOpponent();
  else if(e.id==='playOpponent')startWorldMatch();
- else if(e.id==='hn')go('civ');
+ else if(e.id==='hn'){go('gallery');try{$('gallery').classList.remove('detail');renderGallery()}catch(_){}}
  else if(d.lv==='stay')resume();
  else if(d.lv==='go')doLeave();
  else if(e.id==='hd')go('dly');
