@@ -1,8 +1,14 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.ibabatgames.medeniyetler",
-    "sha256_cert_fingerprints": ["94:7A:E7:A1:01:49:29:1D:D4:70:40:E6:F6:38:24:7F:B3:2B:91:3E:B6:42:87:2C:CD:47:18:65:7E:B7:AD:E1"]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ibabatgames.medeniyetler",
+      "sha256_cert_fingerprints": [
+        "9D:5E:A0:38:CE:43:5D:0E:3A:F1:FA:39:B7:EA:8C:47:D4:A9:3D:B2:1A:39:34:30:A0:04:DD:32:C0:03:37:1C",
+        "5E:D2:69:CC:6F:CE:96:00:29:8E:86:4D:37:BF:08:86:19:7F:F5:7E:9D:31:09:35:C2:3B:F6:8A:F8:75:C4:33",
+        "C9:E4:28:12:63:95:A1:00:AB:3A:DD:09:FD:13:3B:73:E7:BC:5D:87:19:4F:72:F1:00:F0:DE:BE:A9:FC:FF:9D"
+      ]
+    }
   }
-}]
+]
